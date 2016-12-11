@@ -2,10 +2,14 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class NarrationController : MonoBehaviour {
+public class NarrationController : MonoBehaviour
+{
 
     [Tooltip("The text object that will contain the narration")]
     public Text narrationContainer;
+
+    [Tooltip("The audio source containing the talk sound effect. If none is attached, no sound effect will play")]
+    public AudioSource talkSoundEffect;
 
     [Tooltip("The amount of time to wait before writing the next character")]
     public float writeDelay;
@@ -16,7 +20,7 @@ public class NarrationController : MonoBehaviour {
 
     void Update()
     {
-        if(introducingText)
+        if (introducingText)
         {
             shouldSkipText = Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0);
         }
@@ -35,13 +39,18 @@ public class NarrationController : MonoBehaviour {
         StartCoroutine(IntroduceText(textToIntroduce));
     }
 
-	IEnumerator IntroduceText(string textToIntroduce)
+    IEnumerator IntroduceText(string textToIntroduce)
     {
         //Resets state so it doesn't skip by accident
         shouldSkipText = false;
         //Resets narration text 
         narrationContainer.text = "";
         introducingText = true;
+
+        if (talkSoundEffect != null)
+        {
+            talkSoundEffect.Play();
+        }
 
         //Separated by time
         string[] textGroup = textToIntroduce.Split('|');

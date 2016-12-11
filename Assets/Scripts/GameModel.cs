@@ -8,7 +8,7 @@ public class GameModel : MonoBehaviour {
     static string birth;
 
     /// <summary>
-    /// Where in the game is the player right now? 
+    /// Which is the current event in the game? 
     /// </summary>
     static int currentGameState;
 

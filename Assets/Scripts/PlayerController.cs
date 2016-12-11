@@ -60,12 +60,12 @@ public class PlayerController : MonoBehaviour {
         {
             if (translation.x < 0)
             {
-                transform.localScale = new Vector2(-1, transform.localScale.y);
+                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
             }
 
             else
             {
-                transform.localScale = new Vector2(1, transform.localScale.y);
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
             }
 
             if (playerViewScript.collisionState.below)
