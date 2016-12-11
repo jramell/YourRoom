@@ -69,6 +69,7 @@ public class MenuController : MonoBehaviour
 
     void StartGame()
     {
+        GameModel.playerName = realStoredName;
         SceneManager.LoadScene("2_Start");
     }
 
@@ -94,5 +95,10 @@ public class MenuController : MonoBehaviour
     {
         //Load credits
         //SceneManager.LoadScene("3_Credits");
+    }
+
+    public void OnExitClick()
+    {
+        Application.Quit();
     }
 }
