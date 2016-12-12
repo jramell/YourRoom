@@ -21,7 +21,7 @@ public class GameFlowController : MonoBehaviour
         firstDialogSequence[2] = "You did not go out of your room very often.|0.3|";
         firstDialogSequence[3] = "But today you got lost in a park. Scared, you quickly know what must be done.|0.3|";
         firstDialogSequence[4] = "You have to go back to your room!";
-        GameModel.gameState = 2;
+        //GameModel.gameState = 2;
     }
 
     void Update()
