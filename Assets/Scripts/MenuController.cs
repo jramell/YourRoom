@@ -73,15 +73,6 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("2_Start");
     }
 
-    //IEnumerator effectInName()
-    //{
-    //    if (nameText.text[nameText.text.Length - 1] == '_')
-    //    {
-    //        nameText.text = nameText.text.Substring(0, nameText.text.Length - 1);
-    //    }
-    //    yield return new WaitForSeconds(1);
-    //}
-
     public void OnStartClick()
     {
         //Load starting scene

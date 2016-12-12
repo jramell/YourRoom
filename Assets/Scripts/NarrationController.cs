@@ -39,7 +39,7 @@ public class NarrationController : MonoBehaviour
         StartCoroutine(IntroduceText(textToIntroduce));
     }
 
-    IEnumerator IntroduceText(string textToIntroduce)
+    public IEnumerator IntroduceText(string textToIntroduce)
     {
         //Resets state so it doesn't skip by accident
         shouldSkipText = false;
@@ -62,7 +62,6 @@ public class NarrationController : MonoBehaviour
             finalText += textGroup[j];
             for (int i = 0; i < textInChar.Length; i++)
             {
-                //Because it's only receiving input every <writeDelay> seconds, it 
                 if (shouldSkipText)
                 {
                     narrationContainer.text = finalText;

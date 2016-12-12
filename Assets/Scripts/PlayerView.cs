@@ -51,8 +51,6 @@ public class PlayerView : MonoBehaviour {
 
         }
 
-        //playerAnimator.SetFloat("SpeedX", translate.x);
-        //playerAnimator.SetFloat("SpeedY", translate.y);
         transform.Translate(translate);
     }
 
@@ -82,8 +80,6 @@ public class PlayerView : MonoBehaviour {
                 {
                     collisionState.below = true;
                 }
-                //collisionState.above = directionY == 1;
-                //collisionState.below = directionY == -1;
             }
         }
     }

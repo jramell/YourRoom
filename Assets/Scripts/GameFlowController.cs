@@ -17,7 +17,11 @@ public class GameFlowController : MonoBehaviour
         narrationController = FindObjectOfType<NarrationController>();
         firstDialogSequence[0] = "Welcome to Earth, " + GameModel.playerName + "|1|";
         GameModel.birthDate = System.DateTime.Now.ToShortDateString();
-        firstDialogSequence[1] = "You are born in " + GameModel.birthDate + ".|0.5| Everyone is happy!|0.2|";
+        firstDialogSequence[1] = "You were born in a loving family and grew up a strong,|0.1| independent kid.|0.3|";
+        firstDialogSequence[2] = "You did not go out of your room very often.|0.3|";
+        firstDialogSequence[3] = "But today you got lost in a park. Scared, you quickly know what must be done.|0.3|";
+        firstDialogSequence[4] = "You have to go back to your room!";
+        GameModel.gameState = 2;
     }
 
     void Update()
@@ -43,6 +47,7 @@ public class GameFlowController : MonoBehaviour
                 }
             }
             SceneManager.LoadScene("4_FirstPath");
+            GameModel.gameState = 2;
         }
     }
 }
