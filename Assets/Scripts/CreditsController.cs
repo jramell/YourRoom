@@ -9,7 +9,6 @@ public class CreditsController : MonoBehaviour {
     private int current;
 
     private int maxLength;
-	// Update is called once per frame
 
     void Awake()
     {

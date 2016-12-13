@@ -18,6 +18,9 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Time in seconds the enemy will wait before moving on to the next patrol point")]
     public float patrolWait;
 
+    [Tooltip("Should the enemy NOT follow the player once it has gone past him")]
+    public bool notFollowThePlayer;
+
     int currentPoint;
 
     bool isGoingRight;
@@ -26,6 +29,8 @@ public class EnemyController : MonoBehaviour
 
     //Should the enemy do anything
     bool dead;
+
+    float deltaDistance = 10f;
 
     public bool isDead
     {
@@ -45,11 +50,9 @@ public class EnemyController : MonoBehaviour
         {
             if (patrol)
             {
-                
-
-                bool isOnSpot = transform.position.x == patrolPoints[currentPoint].x && transform.position.y == patrolPoints[currentPoint].y;
+                bool isOnSpot = transform.position.x == patrolPoints[currentPoint].x;// && transform.position.y == patrolPoints[currentPoint].y;
                 isGoingRight = patrolPoints[currentPoint].x >= transform.position.x;
-
+                Vector3 target = new Vector3(patrolPoints[currentPoint].x, transform.position.y, transform.position.z);
                 if (!isGoingRight && !isOnSpot)
                 {
                     transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
@@ -78,9 +81,37 @@ public class EnemyController : MonoBehaviour
                         StartCoroutine(WaitToKeepPatrolling());
                     }
                 }
-                transform.position = Vector2.MoveTowards(transform.position, patrolPoints[currentPoint], speed);
+                transform.position = Vector2.MoveTowards(transform.position, target, speed);
+                if (!notFollowThePlayer)
+                {
+                    VerifyIfShouldBeFollowingPlayer();
+                }
+            }
+
+            else
+            {
+                Vector3 target;
+                //target = new Vector3(player.transform.position.x, patrolPoints[currentPoint].y, transform.position.z);
+                target = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+                transform.position = Vector2.MoveTowards(transform.position, target, speed);
+                isGoingRight = target.x >= transform.position.x;
+                if (!isGoingRight)
+                {
+                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                }
+
+                else
+                {
+                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                }
             }
         }
+    }
+
+    //Follow player if he goes too far to the right
+    void VerifyIfShouldBeFollowingPlayer()
+    {
+        patrol = player.transform.position.x - transform.position.x < deltaDistance;
     }
 
     IEnumerator WaitToKeepPatrolling()

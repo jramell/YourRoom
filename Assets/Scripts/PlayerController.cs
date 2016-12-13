@@ -51,6 +51,14 @@ public class PlayerController : MonoBehaviour
         {
             input = new Vector2(Input.GetAxis(HORIZONTAL_AXIS), 0);
             MoveThePlayer(input);
+            //if (transform.position.y < -12.8f)
+            //{
+            //    Die();
+            //}
+            if (transform.position.x < -3.3f)
+            {
+                transform.position = new Vector3(-3.3f, transform.position.y, transform.position.z);
+            }
         }
     }
 
@@ -160,13 +168,43 @@ public class PlayerController : MonoBehaviour
         if (col.collider.tag == "Enemy")
         {
             //If you are considered to not be 'lateral' to the enemy and you touch him, you die
-            if (transform.position.y - col.gameObject.transform.position.y < 0.3f)
+
+            EnemyController enemyCont = col.gameObject.GetComponent<EnemyController>();
+
+            if (enemyCont != null)
             {
-                if (!col.gameObject.GetComponent<EnemyController>().isDead)
+                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.32f)
                 {
-                    Die();
+                    Debug.Log("diff: " + (Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)));
+                    if (!col.gameObject.GetComponent<EnemyController>().isDead)
+                    {
+                        Die();
+                    }
+                }
+
+            }
+            else
+            {
+                //Debug.Log("difference: " + (transform.position.y - col.gameObject.transform.position.y));
+                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.6f)
+                {
+                    if (!col.gameObject.GetComponent<SimpleEnemyController>().isDead)
+                    {
+                        Die();
+                    }
                 }
             }
         }
+
+        //else if (col.collider.tag == "SimpleEnemy")
+        //{
+        //   if (transform.position.y - col.gameObject.transform.position.y < 0.1f)
+        //    {
+        //        if (!col.gameObject.GetComponent<SimpleEnemyController>().isDead)
+        //        {
+        //            Die();
+        //        }
+        //    }
+        //}
     }
 }

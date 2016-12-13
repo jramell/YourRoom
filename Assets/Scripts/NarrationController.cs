@@ -22,7 +22,10 @@ public class NarrationController : MonoBehaviour
     {
         if (introducingText)
         {
-            shouldSkipText = Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0);
+             if(Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0))
+            {
+                shouldSkipText = true;
+            }
         }
     }
 

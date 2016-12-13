@@ -65,7 +65,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CreditsController.cs" />
     <Compile Include="Assets\Scripts\DeathController.cs" />
+    <Compile Include="Assets\Scripts\DoorController.cs" />
+    <Compile Include="Assets\Scripts\EndController.cs" />
+    <Compile Include="Assets\Scripts\EndingDialogController.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\FallingDeathController.cs" />
     <Compile Include="Assets\Scripts\GameFlowController.cs" />
     <Compile Include="Assets\Scripts\GameModel.cs" />
     <Compile Include="Assets\Scripts\MenuController.cs" />
@@ -75,7 +79,9 @@
     <Compile Include="Assets\Scripts\PlayerView.cs" />
     <Compile Include="Assets\Scripts\PointController.cs" />
     <Compile Include="Assets\Scripts\PointObject.cs" />
+    <Compile Include="Assets\Scripts\SimpleEnemyController.cs" />
     <Compile Include="Assets\Scripts\TutorialEnemy.cs" />
+    <Compile Include="Assets\Scripts\TutorialSimpleEnemy.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\ImportBehaviour.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\SortingLayerExposed.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\SpriteDepthInMap.cs" />
@@ -89,6 +95,7 @@
     <None Include="Assets\Tiled2Unity\Imported\01.tiled2unity.xml" />
     <None Include="Assets\Tiled2Unity\Imported\02_m.tiled2unity.xml" />
     <None Include="Assets\Tiled2Unity\Imported\_ReadMe.txt" />
+    <None Include="Assets\Tiled2Unity\Imported\block.tiled2unity.xml" />
     <None Include="Assets\Tiled2Unity\License.txt" />
     <None Include="Assets\Tiled2Unity\Materials\_ReadMe.txt" />
     <None Include="Assets\Tiled2Unity\Meshes\_ReadMe.txt" />

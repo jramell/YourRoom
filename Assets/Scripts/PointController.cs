@@ -20,8 +20,17 @@ public class PointController : MonoBehaviour {
         GameObject instantiated = (GameObject) Instantiate(pointObject, new Vector3(position.x + pointOffset, position.y, position.z), Quaternion.identity);
         instantiated.transform.SetParent(UI.transform, false);
         instantiated.GetComponent<Text>().text = points + "";
-        GameModel.currentPoints += 10;
+        GameModel.currentPoints += points;
         pointsText.text = "" + GameModel.currentPoints;
         obtainPointsSFX.Play();
+    }
+
+    public void AddPointsDif(Vector3 position, int points)
+    {
+        GameObject instantiated = (GameObject)Instantiate(pointObject, new Vector3(position.x + pointOffset, position.y, position.z), Quaternion.identity);
+        instantiated.transform.SetParent(UI.transform, false);
+        instantiated.GetComponent<Text>().text = points + "";
+        GameModel.currentPoints += points;
+        pointsText.text = "" + GameModel.currentPoints;
     }
 }

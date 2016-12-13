@@ -8,6 +8,8 @@ public class PlayerFeetView : MonoBehaviour {
 
     public AudioSource hitEnemySoundEffect;
 
+    public AudioSource chestSFX;
+
     PointController pointController;
 
     void Awake()
@@ -18,14 +20,11 @@ public class PlayerFeetView : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Enemy")
+        if(col.tag == "Chest")
         {
-            //If enemy was hit and we are over him
-            if(col.transform.position.y < transform.position.y)
-            {
-                playerController.HitEnemy();
-                col.gameObject.SendMessage("Die");
-            }
+            chestSFX.Play();
+            pointController.AddPointsDif(col.transform.position, 100);
+            Destroy(col.gameObject);
         }
     }
 
@@ -40,20 +39,49 @@ public class PlayerFeetView : MonoBehaviour {
             {
 
                 playerController.HitEnemy();
-                if (!col.gameObject.GetComponent<EnemyController>().isDead)
+
+                EnemyController enemyCont = col.gameObject.GetComponent<EnemyController>();
+
+                if(enemyCont != null)
                 {
-                    col.gameObject.SendMessage("Die");
-                    pointController.AddPoints(col.transform.position, 10);
+                    if (!enemyCont.isDead)
+                    {
+                        col.gameObject.SendMessage("Die");
+                        pointController.AddPoints(col.transform.position, 10);
+                    }
+
+                    else
+                    {
+                        float pitch = Random.Range(0.9f, 1.1f);
+                        hitEnemySoundEffect.pitch = pitch;
+                        hitEnemySoundEffect.Play();
+                    }
                 }
 
                 else
                 {
-                    float pitch = Random.Range(0.9f, 1.1f);
-                    hitEnemySoundEffect.pitch = pitch;
-                    hitEnemySoundEffect.Play();
-                }
+                    SimpleEnemyController simpleEnemy = col.gameObject.GetComponent<SimpleEnemyController>();
+                    if (!simpleEnemy.isDead)
+                    {
+                        col.gameObject.SendMessage("Die");
+                        pointController.AddPoints(col.transform.position, 10);
+                    }
 
+                    else
+                    {
+                        float pitch = Random.Range(0.9f, 1.1f);
+                        hitEnemySoundEffect.pitch = pitch;
+                        hitEnemySoundEffect.Play();
+                    }
+                }
             }
+        }
+
+        else if (col.collider.tag == "Chest")
+        {
+            chestSFX.Play();
+            pointController.AddPointsDif(col.transform.position, 100);
+            Destroy(col.collider.gameObject);
         }
     }
 

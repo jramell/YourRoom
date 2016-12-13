@@ -83,6 +83,7 @@ public class DeathController : MonoBehaviour
     //'current scene checkpoint' of the game in order to load the correct one here. However, since there is just one level in the game, this is faster.
     void Restart()
     {
+        GameModel.currentPoints = 0;
         deathText.text = "";
         deathScreen.color = Color.red;
         deathText.fontSize = originalFontSize;

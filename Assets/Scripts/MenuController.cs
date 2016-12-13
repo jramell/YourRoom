@@ -85,7 +85,7 @@ public class MenuController : MonoBehaviour
     public void OnCreditsClick()
     {
         //Load credits
-        //SceneManager.LoadScene("3_Credits");
+        SceneManager.LoadScene("3_Credits");
     }
 
     public void OnExitClick()
