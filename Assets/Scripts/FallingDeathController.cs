@@ -26,6 +26,7 @@ public class FallingDeathController : MonoBehaviour {
         else if (col.collider.gameObject.tag == "Enemy")
         {
             col.gameObject.SendMessage("Die");
+            Destroy(col.gameObject, 0.3f);
         }
     }
 }

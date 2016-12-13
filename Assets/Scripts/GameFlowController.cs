@@ -24,7 +24,7 @@ public class GameFlowController : MonoBehaviour
         firstDialogSequence[1] = "You get lost in the park!|0.3|";
         firstDialogSequence[2] = "You have to go back to your room!|0.9|";
         second = new string[2];
-        second[0] = "\"" + GameModel.playerName + "?";
+        second[0] = "\"" + GameModel.playerName + "?|0.4|";
         second[1] = "\"Where have you been?\"|1|";
        //GameModel.gameState = 2;
     }
