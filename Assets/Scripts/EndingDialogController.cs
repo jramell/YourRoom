@@ -32,7 +32,6 @@ public class EndingDialogController : MonoBehaviour {
 
     IEnumerator ManageEvents()
     {
-        Debug.Log("started");
         started = true;
 
             for (int i = 0; i < second.Length; i++)

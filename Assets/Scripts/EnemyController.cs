@@ -18,8 +18,8 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Time in seconds the enemy will wait before moving on to the next patrol point")]
     public float patrolWait;
 
-    [Tooltip("Should the enemy NOT follow the player once it has gone past him")]
-    public bool notFollowThePlayer;
+    [Tooltip("Should the enemy guard its position instead of following the player?")]
+    public bool guard;
 
     int currentPoint;
 
@@ -44,6 +44,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (guard)
+        {
+            deltaDistance = 10000f;
+        }
+    }
+
     void Update()
     {
         if (!dead)
@@ -53,6 +61,7 @@ public class EnemyController : MonoBehaviour
                 bool isOnSpot = transform.position.x == patrolPoints[currentPoint].x;// && transform.position.y == patrolPoints[currentPoint].y;
                 isGoingRight = patrolPoints[currentPoint].x >= transform.position.x;
                 Vector3 target = new Vector3(patrolPoints[currentPoint].x, transform.position.y, transform.position.z);
+               // Debug.Log(target);
                 if (!isGoingRight && !isOnSpot)
                 {
                     transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
@@ -81,11 +90,11 @@ public class EnemyController : MonoBehaviour
                         StartCoroutine(WaitToKeepPatrolling());
                     }
                 }
+
                 transform.position = Vector2.MoveTowards(transform.position, target, speed);
-                if (!notFollowThePlayer)
-                {
+
+
                     VerifyIfShouldBeFollowingPlayer();
-                }
             }
 
             else

@@ -18,7 +18,7 @@ public class GameFlowController : MonoBehaviour
     {
         firstDialogSequence = new string[3];
         narrationController = FindObjectOfType<NarrationController>();
-        firstDialogSequence[0] = "As a kid, you arrive at a park in the morning.";
+        firstDialogSequence[0] = "As a kid, you arrive at a park in the morning.|0.2|";
         GameModel.birthDate = System.DateTime.Now.ToShortDateString();
         //firstDialogSequence[1] = "You were born in a loving family.|0.3|";
         firstDialogSequence[1] = "You get lost in the park!|0.3|";

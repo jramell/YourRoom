@@ -173,9 +173,9 @@ public class PlayerController : MonoBehaviour
 
             if (enemyCont != null)
             {
-                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.32f)
+                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.3f)
                 {
-                    Debug.Log("diff: " + (Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)));
+                    //Debug.Log("diff: " + (Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)));
                     if (!col.gameObject.GetComponent<EnemyController>().isDead)
                     {
                         Die();

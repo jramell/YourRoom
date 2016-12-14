@@ -39,7 +39,16 @@ public class EndController : MonoBehaviour {
         namePlace.text = "Name: " + GameModel.playerName;
         yield return new WaitForSeconds(timeWait);
         appearSFX.Play();
-        pointPlace.text = "Points: " + GameModel.currentPoints + "/300";
+        if (GameModel.currentPoints == 300)
+        {
+            pointPlace.text = "Points: <color=lime>" + GameModel.currentPoints + "/300</color>";
+        }
+
+        else
+        {
+            pointPlace.text = "Points: <color=yellow>" + GameModel.currentPoints + "/300</color>";
+            
+        }
         yield return new WaitForSeconds(timeWait);
         appearSFX.Play();
         dateLost.text = "Lost in: " + GameModel.birthDate;
@@ -50,6 +59,7 @@ public class EndController : MonoBehaviour {
         if (!charged)
         {
             SceneManager.LoadScene("3_Credits");
+            GameModel.gameState = 0;
         }
     }
 }
