@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 
     private const string HORIZONTAL_AXIS = "Horizontal";
     //If the player is at this velocity or less while jumping he's considered to be in its apex or falling and gravity is increased
-    private float jumpApexVelocity = 3.5f;
+    private float jumpApexVelocity = 3.75f;
 
     //Controls how fast the player falls at free fall or once his jumping is finished
     private const float INCREASED_GRAVITY_SCALE = 3f;
@@ -51,10 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             input = new Vector2(Input.GetAxis(HORIZONTAL_AXIS), 0);
             MoveThePlayer(input);
-            //if (transform.position.y < -12.8f)
-            //{
-            //    Die();
-            //}
+ 
             if (transform.position.x < -3.3f)
             {
                 transform.position = new Vector3(-3.3f, transform.position.y, transform.position.z);
@@ -173,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
             if (enemyCont != null)
             {
-                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.3f)
+                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.33f)
                 {
                     //Debug.Log("diff: " + (Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)));
                     if (!col.gameObject.GetComponent<EnemyController>().isDead)
@@ -195,16 +192,40 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
 
-        //else if (col.collider.tag == "SimpleEnemy")
-        //{
-        //   if (transform.position.y - col.gameObject.transform.position.y < 0.1f)
-        //    {
-        //        if (!col.gameObject.GetComponent<SimpleEnemyController>().isDead)
-        //        {
-        //            Die();
-        //        }
-        //    }
-        //}
+    //The enemy should implement the "killing the player" detection function, but as there's no time and this already works I'll do it here
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.collider.tag == "Enemy")
+        {
+            //If you are considered to not be 'lateral' to the enemy and you touch him, you die
+
+            EnemyController enemyCont = col.gameObject.GetComponent<EnemyController>();
+
+            if (enemyCont != null)
+            {
+                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.33f)
+                {
+                    //Debug.Log("diff: " + (Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)));
+                    if (!col.gameObject.GetComponent<EnemyController>().isDead)
+                    {
+                        Die();
+                    }
+                }
+
+            }
+            else
+            {
+                //Debug.Log("difference: " + (transform.position.y - col.gameObject.transform.position.y));
+                if (Mathf.Abs(Mathf.Abs(transform.position.y) - Mathf.Abs(col.gameObject.transform.position.y)) < 0.6f)
+                {
+                    if (!col.gameObject.GetComponent<SimpleEnemyController>().isDead)
+                    {
+                        Die();
+                    }
+                }
+            }
+        }
     }
 }

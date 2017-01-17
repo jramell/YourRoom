@@ -26,7 +26,7 @@ public class GameFlowController : MonoBehaviour
         second = new string[2];
         second[0] = "\"" + GameModel.playerName + "?|0.4|";
         second[1] = "\"Where have you been?\"|1|";
-       //GameModel.gameState = 2;
+       GameModel.gameState = 2;
     }
 
     void Update()

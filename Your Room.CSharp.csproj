@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\GameModel.cs" />
     <Compile Include="Assets\Scripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\NarrationController.cs" />
+    <Compile Include="Assets\Scripts\ParallaxController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerFeetView.cs" />
     <Compile Include="Assets\Scripts\PlayerView.cs" />

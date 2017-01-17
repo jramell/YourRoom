@@ -15,22 +15,22 @@ public class PointController : MonoBehaviour {
     [Tooltip("Offset the points will appear in the X axis")]
     public float pointOffset;
 
+    private Camera cam;
+
+    void Start()
+    {
+        cam = FindObjectOfType<Camera>();
+    }
+
     public void AddPoints(Vector3 position, int points)
     {
-        GameObject instantiated = (GameObject) Instantiate(pointObject, new Vector3(position.x + pointOffset, position.y, position.z), Quaternion.identity);
+        Vector3 target = new Vector3(position.x + pointOffset, position.y, position.z);
+        //target = cam.WorldToScreenPoint(target);
+        GameObject instantiated = (GameObject) Instantiate(pointObject,target , Quaternion.identity);
         instantiated.transform.SetParent(UI.transform, false);
         instantiated.GetComponent<Text>().text = points + "";
         GameModel.currentPoints += points;
         pointsText.text = "" + GameModel.currentPoints;
         obtainPointsSFX.Play();
-    }
-
-    public void AddPointsDif(Vector3 position, int points)
-    {
-        GameObject instantiated = (GameObject)Instantiate(pointObject, new Vector3(position.x + pointOffset, position.y, position.z), Quaternion.identity);
-        instantiated.transform.SetParent(UI.transform, false);
-        instantiated.GetComponent<Text>().text = points + "";
-        GameModel.currentPoints += points;
-        pointsText.text = "" + GameModel.currentPoints;
     }
 }

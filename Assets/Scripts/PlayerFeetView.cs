@@ -23,7 +23,7 @@ public class PlayerFeetView : MonoBehaviour {
         if(col.tag == "Chest")
         {
             chestSFX.Play();
-            pointController.AddPointsDif(col.transform.position, 100);
+            pointController.AddPoints(col.transform.position, 100);
             Destroy(col.gameObject);
         }
     }
@@ -80,7 +80,7 @@ public class PlayerFeetView : MonoBehaviour {
         else if (col.collider.tag == "Chest")
         {
             chestSFX.Play();
-            pointController.AddPointsDif(col.transform.position, 100);
+            pointController.AddPoints(col.transform.position, 100);
             Destroy(col.collider.gameObject);
         }
     }
