@@ -13,7 +13,7 @@ public class PointController : MonoBehaviour {
     public Canvas UI;
 
     [Tooltip("Offset the points will appear in the X axis")]
-    public float pointOffset;
+    public float pointOffset = 5f;
 
     private Camera cam;
 
@@ -22,12 +22,19 @@ public class PointController : MonoBehaviour {
         cam = FindObjectOfType<Camera>();
     }
 
+
+
     public void AddPoints(Vector3 position, int points)
     {
-        Vector3 target = new Vector3(position.x + pointOffset, position.y, position.z);
-        //target = cam.WorldToScreenPoint(target);
-        GameObject instantiated = (GameObject) Instantiate(pointObject,target , Quaternion.identity);
+        Vector3 target = new Vector3(position.x, position.y, position.z);
+        //target = Input.mousePosition;
+        //target = cam.ScreenToViewportPoint(target);
+        GameObject instantiated = (GameObject) Instantiate(pointObject);
         instantiated.transform.SetParent(UI.transform, false);
+        Debug.Log("viewport: " + target);
+        target = cam.WorldToScreenPoint(target);
+        //target = Vector3.zero;
+        instantiated.transform.position = target;
         instantiated.GetComponent<Text>().text = points + "";
         GameModel.currentPoints += points;
         pointsText.text = "" + GameModel.currentPoints;
