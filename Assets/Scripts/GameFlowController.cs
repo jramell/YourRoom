@@ -14,6 +14,8 @@ public class GameFlowController : MonoBehaviour
 
     public string[] second;
 
+    public bool debug = false;
+
     void Start()
     {
         firstDialogSequence = new string[3];
@@ -26,7 +28,10 @@ public class GameFlowController : MonoBehaviour
         second = new string[2];
         second[0] = "\"" + GameModel.playerName + "?|0.4|";
         second[1] = "\"Where have you been?\"|1|";
-       GameModel.gameState = 2;
+        if (debug)
+        {
+            GameModel.gameState = 2;
+        }
     }
 
     void Update()

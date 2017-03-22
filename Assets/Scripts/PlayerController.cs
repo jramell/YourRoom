@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private float jumpApexVelocity = 3.75f;
 
     //Controls how fast the player falls at free fall or once his jumping is finished
-    private const float INCREASED_GRAVITY_SCALE = 3f;
+    private const float INCREASED_GRAVITY_SCALE = 3.5f;
 
     public float speed;
     public float jumpStrength;
