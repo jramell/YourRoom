@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Script added to the main camera in this implementation ... created for games where main camera position = player position. Not tested in other
-/// environments yet. Does NOT make any configuration on the order the backgrounds added are rendered. This must be set using Unity's sprite layering
-/// system. Provided backgrounds "z" position is taken as their "depth" in the parallax calculations. Does not work with negative depth values.
-/// Backgrounds with zero depth will not parallax.
+/// Handles 2D parallaxing of all the backgrounds added to its backgrounds array. To use it add it to the Main Camera and indicate which backgrounds to parallax.
+/// Does NOT make any assumptions on the order the backgrounds are rendered. This must be set using Unity's layering system for each background. 
+/// Provided backgrounds "z" position is taken as their "depth" in the parallax calculations. Does not work correctly with negative depth values and backgrounds 
+/// with zero depth will not parallax. This script was made for the Unity game engine.
 /// </summary>
 public class ParallaxController : MonoBehaviour
 {
@@ -15,17 +15,20 @@ public class ParallaxController : MonoBehaviour
     /// <summary>
     /// Backgrounds to be parallaxed
     /// </summary>
+    [Tooltip("Backgrounds to be parallaxed")]
     public GameObject[] backgrounds;
 
     /// <summary>
     /// Do you want to parallax vertically your backgrounds? Unchecked by default
     /// </summary>
+    [Tooltip("Should backgrounds parallax vertically?")]
     public bool parallaxVertically = false;
 
     /// <summary>
     /// If checked, spawns backgrounds instances automatically around the camera position. 
     /// If unchecked, spawns backgrounds instances using the position of the instance provided. Checked by default.
     /// </summary>
+    [Tooltip("Should backgrounds spawn around camera or around original background in scene?")]
     public bool spawnBackgroundsAroundCamera = true;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,11 +52,16 @@ public class ParallaxController : MonoBehaviour
     private int backgroundCount;
 
     /// <summary>
-    /// Stored like these for performance. An alternative would be just storing the backgrounds as SpriteRenderer[] instead of GameObject[], but that would make it
-    /// necessary to use SpriteRenderer.gameObject each time we want to change its position, which is (probably) less performant. Another alternative would be to just
+    /// Background sizes stored in cache for performance. An alternative would be just storing the backgrounds as SpriteRenderer[] instead of GameObject[], but that would make it
+    /// necessary to use SpriteRenderer.gameObject each time we want to change its position, which would be less performant. Another alternative would be to just
     /// use GetComponent<SpriteRenderer>().bounds.size.x each frame, but that is WAY less performant.
     /// </summary>
     private float[] backgroundSizes;
+
+    /// <summary>
+    /// Each halfBackgroundSizesHalf[i] is backgroundsSizes[i]/2. It's stored in memory for performance, so we don't have to calculate backgroundSizes[i]/2 again each time we need it.
+    /// </summary>
+    private float[] halfBackgroundSizes;
 
     /// <summary>
     /// Matrix where each column j contains two instantiations of the background stored in backgrounds[j] whose positions are changed at runtime
@@ -71,6 +79,7 @@ public class ParallaxController : MonoBehaviour
         backgroundCount = backgrounds.Length;
         parallaxScales = new float[backgroundCount];
         backgroundSizes = new float[backgroundCount];
+        halfBackgroundSizes = new float[backgroundCount];
 
         //As many columns as backgrounds there are, but only 2 instiantiations per background.
         instantiatedBackgrounds = new GameObject[backgroundCount, 3];
@@ -79,6 +88,7 @@ public class ParallaxController : MonoBehaviour
         {
             parallaxScales[i] = backgrounds[i].transform.position.z;
             backgroundSizes[i] = backgrounds[i].GetComponent<SpriteRenderer>().bounds.size.x;
+            halfBackgroundSizes[i] = backgroundSizes[i] / 2;
         }
 
         InstantiateScrollBackgrounds();
@@ -90,8 +100,7 @@ public class ParallaxController : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles parallaxing of the backgrounds provided to the script. Backgrounds with negative "z" (depth) won't parallax correctly. Backgrounds with z=0 won't
-    /// parallax.
+    /// Handles parallaxing of all backgrounds provided to the script. Backgrounds with negative "z" (depth) won't parallax correctly. Backgrounds with z=0 won't parallax.
     /// </summary>
     void Parallax()
     {
@@ -144,7 +153,7 @@ public class ParallaxController : MonoBehaviour
     {
         for (int i = 0; i < backgroundCount; i++)
         {
-            if (transform.position.x > instantiatedBackgrounds[i, 2].transform.position.x - backgroundSizes[i] / 2)
+            if (transform.position.x > instantiatedBackgrounds[i, 2].transform.position.x - halfBackgroundSizes[i])
             {
                 instantiatedBackgrounds[i, 0].transform.position = new Vector3(instantiatedBackgrounds[i, 2].transform.position.x + backgroundSizes[i], instantiatedBackgrounds[i, 2].transform.position.y, instantiatedBackgrounds[i, 2].transform.position.z);
                 GameObject temp = instantiatedBackgrounds[i, 0];
@@ -159,7 +168,7 @@ public class ParallaxController : MonoBehaviour
     {
         for (int i = 0; i < backgroundCount; i++)
         {
-            if (transform.position.x < instantiatedBackgrounds[i, 1].transform.position.x - backgroundSizes[i] / 2)
+            if (transform.position.x < instantiatedBackgrounds[i, 1].transform.position.x - halfBackgroundSizes[i])
             {
                 GameObject temp = instantiatedBackgrounds[i, 2];
                 temp.transform.position = new Vector3(instantiatedBackgrounds[i, 0].transform.position.x - backgroundSizes[i], instantiatedBackgrounds[i, 0].transform.position.y, instantiatedBackgrounds[i, 0].transform.position.z);
@@ -177,32 +186,35 @@ public class ParallaxController : MonoBehaviour
     void InstantiateScrollBackgrounds()
     {
         Vector3 targetPosition = Vector3.zero;
+        //Instantiates using transform.position as origin
         if (spawnBackgroundsAroundCamera)
         {
             for (int i = 0; i < backgroundCount; i++)
             {
                 targetPosition = new Vector3(transform.position.x - backgroundSizes[i], transform.position.y, backgrounds[i].transform.position.z);
-                instantiatedBackgrounds[i, 0] = (GameObject)Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
+                instantiatedBackgrounds[i, 0] = Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
 
                 targetPosition = new Vector3(transform.position.x, transform.position.y, backgrounds[i].transform.position.z);
-                instantiatedBackgrounds[i, 1] = (GameObject)Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
+                instantiatedBackgrounds[i, 1] = Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
 
                 targetPosition = new Vector3(transform.position.x + backgroundSizes[i], transform.position.y, backgrounds[i].transform.position.z);
-                instantiatedBackgrounds[i, 2] = (GameObject)Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
+                instantiatedBackgrounds[i, 2] = Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
             }
         }
+
         else
         {
+            //Instantiates using backgrounds[i].transform.position as origin for each backgrounds[i]
             for (int i = 0; i < backgroundCount; i++)
             {
                 targetPosition = new Vector3(backgrounds[i].transform.position.x - backgroundSizes[i], backgrounds[i].transform.position.y, backgrounds[i].transform.position.z);
-                instantiatedBackgrounds[i, 0] = (GameObject)Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
+                instantiatedBackgrounds[i, 0] = Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
 
-                targetPosition = new Vector3(backgrounds[i].transform.position.x, backgrounds[i].transform.position.y, backgrounds[i].transform.position.z);
-                instantiatedBackgrounds[i, 1] = (GameObject)Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
+                //Not necessary to instantiate the middle background because we're instantiating around it
+                instantiatedBackgrounds[i, 1] = backgrounds[i];
 
                 targetPosition = new Vector3(backgrounds[i].transform.position.x + backgroundSizes[i], backgrounds[i].transform.position.y, backgrounds[i].transform.position.z);
-                instantiatedBackgrounds[i, 2] = (GameObject)Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
+                instantiatedBackgrounds[i, 2] = Instantiate(backgrounds[i], targetPosition, Quaternion.identity);
             }
         }
     }

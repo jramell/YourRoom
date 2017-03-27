@@ -57,6 +57,7 @@ public class SimpleEnemyController : MonoBehaviour {
             selfAnimator.Play(Animator.StringToHash("raptor_death"));
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             boxCollider.size = new Vector2(boxCollider.size.x - 0.1f, boxCollider.size.y);
+
         }
     }
 }

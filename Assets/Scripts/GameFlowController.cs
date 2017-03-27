@@ -12,7 +12,7 @@ public class GameFlowController : MonoBehaviour
 
     string[] firstDialogSequence;
 
-    public string[] second;
+    string[] second;
 
     public bool debug = false;
 
@@ -20,10 +20,10 @@ public class GameFlowController : MonoBehaviour
     {
         firstDialogSequence = new string[3];
         narrationController = FindObjectOfType<NarrationController>();
-        firstDialogSequence[0] = "As a kid, you arrive at a park in the morning.|0.2|";
+        firstDialogSequence[0] = "As a kid, you arrive at a park in the morning.|0.3|";
         GameModel.birthDate = System.DateTime.Now.ToShortDateString();
         //firstDialogSequence[1] = "You were born in a loving family.|0.3|";
-        firstDialogSequence[1] = "You get lost in the park!|0.3|";
+        firstDialogSequence[1] = "You get lost in the park!|0.4|";
         firstDialogSequence[2] = "You have to go back to your room!|0.9|";
         second = new string[2];
         second[0] = "\"" + GameModel.playerName + "?|0.4|";

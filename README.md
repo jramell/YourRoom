@@ -14,5 +14,5 @@ The game is currently in the "Judging" phase of the Ludum Dare # 37. Its entry c
 
 ### Future Work
 
-    -I'm working on a visual update that'all add a proper background to the game
-    -I'll publish a post-mortem of the game once the judging phase is over and I can analyze the total feedback I'll have received until then. It will be published in my blog at my portfolio (http://sergiomadera.portfoliobox.net/blog). This is in order to make the most of the exposure that participating in the Ludum Dare provides.
+    -I'm working on a visual update that'll add a proper background to the game (done! Although not as appropriate as I would've wanted. Update with a parallaxing 3-layer background published on: 27/03/2017)
+    -I'll publish a post-mortem of the game once the judging phase is over and I can analyze the total feedback I'll have received until then. It will be published in my blog at my portfolio (http://sergiomadera.portfoliobox.net/blog). This is in order to make the most of the exposure that participating in the Ludum Dare provides. (done! Post-Mortem is published at http://sergiomadera.portfoliobox.net/blog/back-to-your-room-postmortem)

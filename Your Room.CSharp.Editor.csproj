@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Graphics\Fonts\license.txt" />
+    <None Include="Assets\Graphics\Sprites\background\Fence Game Background for game developers\get more at bevouliin_dot_com.txt" />
     <None Include="Assets\Tiled2Unity\Imported\01.tiled2unity.xml" />
     <None Include="Assets\Tiled2Unity\Imported\02_m.tiled2unity.xml" />
     <None Include="Assets\Tiled2Unity\Imported\_ReadMe.txt" />
