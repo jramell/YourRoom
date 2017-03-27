@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Handles 2D parallaxing of all the backgrounds added to its backgrounds array. To use it add it to the Main Camera and indicate which backgrounds to parallax.
-/// Does NOT make any assumptions on the order the backgrounds are rendered. This must be set using Unity's layering system for each background. 
-/// Provided backgrounds "z" position is taken as their "depth" in the parallax calculations. Does not work correctly with negative depth values and backgrounds 
-/// with zero depth will not parallax. This script was made for the Unity game engine.
+/// Handles 2D parallaxing of all the backgrounds added to its backgrounds array. To use it add it to the Main Camera and indicate which 
+/// backgrounds to parallax. Does NOT make any assumptions on the order the backgrounds are rendered. This must be set using Unity's 
+/// layering system for each background. Provided backgrounds "z" position is taken as their "depth" in the parallax calculations. Does 
+/// not work correctly with negative depth values, and backgrounds with zero depth will not parallax. This script was made for the Unity
+/// game engine.
 /// </summary>
 public class ParallaxController : MonoBehaviour
 {
@@ -41,32 +42,34 @@ public class ParallaxController : MonoBehaviour
     private Vector3 previousCameraPosition;
 
     /// <summary>
-    /// Stored in an array so we don't have to call backgrounds[i].transform.position.z each time we use them (in every LateUpdate, mainly).
-    /// In situations where memory is critical the script may be rewritten without it.
+    /// Stored in an array so we don't have to call backgrounds[i].transform.position.z each time we use them
+    /// (in every LateUpdate, mainly). In situations where memory is critical the script may be rewritten without it.
     /// </summary>
     private float[] parallaxScales;
 
     /// <summary>
-    /// Stores how many backgrounds there are so it isn't necessary to ask for backgrounds.Length and make a copy of it each time we use the number
+    /// Stores how many backgrounds there are so it isn't necessary to ask for backgrounds.Length and make a copy each time we use it
     /// </summary>
     private int backgroundCount;
 
     /// <summary>
-    /// Background sizes stored in cache for performance. An alternative would be just storing the backgrounds as SpriteRenderer[] instead of GameObject[], but that would make it
-    /// necessary to use SpriteRenderer.gameObject each time we want to change its position, which would be less performant. Another alternative would be to just
-    /// use GetComponent<SpriteRenderer>().bounds.size.x each frame, but that is WAY less performant.
+    /// Background sizes stored in cache for performance. An alternative would be just storing the backgrounds as SpriteRenderer[] instead 
+    /// of GameObject[], but that would make it necessary to use SpriteRenderer.gameObject each time we want to change its position, which
+    /// would be less performant. Another alternative would be to just use GetComponent<SpriteRenderer>().bounds.size.x each frame, but
+    /// that is WAY less performant.
     /// </summary>
     private float[] backgroundSizes;
 
     /// <summary>
-    /// Each halfBackgroundSizesHalf[i] is backgroundsSizes[i]/2. It's stored in memory for performance, so we don't have to calculate backgroundSizes[i]/2 again each time we need it.
+    /// Each halfBackgroundSizesHalf[i] is backgroundsSizes[i]/2. It's stored in memory for performance, so we don't have to calculate 
+    /// backgroundSizes[i]/2 again each time we need it.
     /// </summary>
     private float[] halfBackgroundSizes;
 
     /// <summary>
-    /// Matrix where each column j contains two instantiations of the background stored in backgrounds[j] whose positions are changed at runtime
-    /// to achieve infinite scrolling effect with each background. In the last position (2), there's always the most right background, while in the
-    /// first position there always is the most left one. instantiatedBackgrounds[i, 1] will be the middle one
+    /// Matrix where each column j contains two instantiations of the background stored in backgrounds[j] whose positions are changed at
+    /// runtime to achieve infinite scrolling effect with each background. In the last position (2), there's always the most right 
+    /// background, while in the first position there always is the most left one. instantiatedBackgrounds[i, 1] will be the middle one
     /// </summary>
     private GameObject[,] instantiatedBackgrounds;
 
@@ -100,7 +103,8 @@ public class ParallaxController : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles parallaxing of all backgrounds provided to the script. Backgrounds with negative "z" (depth) won't parallax correctly. Backgrounds with z=0 won't parallax.
+    /// Handles parallaxing of all backgrounds provided to the script. Backgrounds with negative "z" (depth) won't parallax correctly.
+    /// Backgrounds with z=0 won't parallax.
     /// </summary>
     void Parallax()
     {
@@ -118,9 +122,12 @@ public class ParallaxController : MonoBehaviour
             Vector3 target = Vector3.zero;
             for (int j = 0; j < 3; j++)
             {
-                target = new Vector3(instantiatedBackgrounds[i, j].transform.position.x + deltaX * parallaxScales[i], instantiatedBackgrounds[i, j].transform.position.y + deltaY * parallaxScales[i], instantiatedBackgrounds[i, j].transform.position.z);
-                //Using Time.deltaTime as an interpolant means movement is not linear, but gets slower as distance with the target diminishes. It also means the amount of 
-                //movement of the backgrounds depends on framerate, but that does not affect overall functionality as backgrounds still change positions to seem seamless.
+                target = new Vector3(instantiatedBackgrounds[i, j].transform.position.x + deltaX * parallaxScales[i], 
+                                     instantiatedBackgrounds[i, j].transform.position.y + deltaY * parallaxScales[i], 
+                                     instantiatedBackgrounds[i, j].transform.position.z);
+                //Using Time.deltaTime as an interpolant means movement is not linear, but gets slower as distance with the target 
+                //diminishes. It also means the amount of movement of the backgrounds depends on framerate, but that does not affect 
+                //overall functionality as backgrounds still change positions to seem seamless.
                 instantiatedBackgrounds[i, j].transform.position = Vector3.Lerp(instantiatedBackgrounds[i, j].transform.position, target, Time.deltaTime);
             }
         }
@@ -148,7 +155,11 @@ public class ParallaxController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Repositions background instances to the right when the player is moving in that direction. Ensures that
+    /// instantiatedBackgrounds[i,0] is the leftmost instance of the i(th) background, instantiatedBackgrounds[i,1]
+    /// is the middle one and instantiatedBackgrounds[i,2] is the rightmost instance.
+    /// </summary>
     void ScrollRight()
     {
         for (int i = 0; i < backgroundCount; i++)
@@ -164,6 +175,11 @@ public class ParallaxController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Repositions background instances to the left when the player is moving in that direction. Ensures that
+    /// instantiatedBackgrounds[i,0] is the leftmost instance of the i(th) background, instantiatedBackgrounds[i,1]
+    /// is the middle one and instantiatedBackgrounds[i,2] is the rightmost instance.
+    /// </summary>
     void ScrollLeft()
     {
         for (int i = 0; i < backgroundCount; i++)
@@ -180,8 +196,9 @@ public class ParallaxController : MonoBehaviour
     }
 
     /// <summary>
-    /// Instantiates two copies of each background adjacent to the original so they are reordered at runtime. If spawnBackgroundsAroundCamera is checked,
-    /// copies spawn around the camera's position. If not, copies spawn around the original background's position.
+    /// Instantiates two copies of each background adjacent to the original so they are reordered at runtime. If 
+    /// spawnBackgroundsAroundCamera is checked, copies spawn around the camera's position. If not, copies spawn around
+    /// the original background's position.
     /// </summary>
     void InstantiateScrollBackgrounds()
     {
